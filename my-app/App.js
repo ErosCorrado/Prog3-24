@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import Home from './src/screens/Home';
+import CrearPost from './src/screens/CrearPost';
+
 
 
 function App() {
