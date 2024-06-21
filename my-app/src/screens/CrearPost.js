@@ -1,13 +1,21 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import { auth,db } from "../firebase/config"
+import Camara from '../components/Camara'
 
 export default class CrearPost extends Component {
   constructor(props){
     super(props)
     this.state = {
-        descripcion: ""
+        descripcion: "",
+        image: ""
     }
+  }
+
+  actualizarImgUrl(url) {
+    this.setState({
+      image: url,
+    })
   }
 
   onSubmit(descripcion){
@@ -16,7 +24,7 @@ export default class CrearPost extends Component {
             descripcion: descripcion,
             owner: auth.currentUser.email,
             createdAt: Date.now(),
-            imageUrl: "", //FALTA
+            imageUrl: this.state.image, 
             likes: [],
             comments: []
         })
@@ -27,17 +35,32 @@ export default class CrearPost extends Component {
 
   render() {
     return (
-      <View>
-        <TextInput
-        onChangeText={(text)=> this.setState({descripcion: text})}
-        placeholder='Descripción del posteo'
-        />
-        <TouchableOpacity
-        onPress={()=> this.onSubmit(this.state.descripcion)}
-        >
-            <Text>Crear posteoo</Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
+        {this.state.image == ""?
+          <Camara
+          actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
+          />    
+        :
+        <>
+          <TextInput
+          onChangeText={(text)=> this.setState({descripcion: text})}
+          placeholder='Descripción del posteo'
+          />
+          <TouchableOpacity
+          onPress={()=> this.onSubmit(this.state.descripcion)}
+          >
+              <Text>Crear posteo</Text>
+          </TouchableOpacity>
+        </>
+        }
+        
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+})

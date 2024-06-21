@@ -36,6 +36,14 @@ export default class TabNav extends Component {
 
           }} />
 
+        <Tab.Screen 
+          name='search' 
+          component= {Buscador}
+          options={{
+            headerShown: false,
+            tabBarIcon: () => <FontAwesome name="search" size={24} color="black" />
+        }}/>
+
       </Tab.Navigator>
     )
   }
