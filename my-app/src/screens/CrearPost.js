@@ -35,7 +35,7 @@ export default class CrearPost extends Component {
         <TouchableOpacity
         onPress={()=> this.onSubmit(this.state.descripcion)}
         >
-            <Text>Crear posteo</Text>
+            <Text>Crear posteoo</Text>
         </TouchableOpacity>
       </View>
     )
