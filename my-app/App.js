@@ -2,10 +2,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import Register from './src/screens/Register';
 import MainNav from './src/navigation/mainNav';
 
-function App() {
+export default function App() {
   return (
-    <View style = {styles.contenedorMain}>
-      <MainNav/>
+    <View
+     style = {styles.contenedorMain}>
+       <MainNav/>
     </View>
   );
 }
@@ -15,4 +16,3 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 })
-export default App
