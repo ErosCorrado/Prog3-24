@@ -3,7 +3,6 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from 'react
 import { db, auth } from "../firebase/config"
 import firebase from "firebase"
 
-
 export default class Post extends Component {
     constructor(props) {
         super(props)
@@ -13,15 +12,12 @@ export default class Post extends Component {
         }
     }
 
-
     componentDidMount() {
-        console.log('mira',this.props)
+        console.log('Post data:', this.props.post);  // Verifica los datos del post
         let estaMiLike = this.props.post.data.likes.includes(auth.currentUser.email)
         this.setState({ estaMiLike: estaMiLike })
-
     }
 
-    // en este metodo actualizamos el documento correspondiente a este posteo
     like() {
         db.collection("posts")
             .doc(this.props.post.id)
@@ -45,16 +41,14 @@ export default class Post extends Component {
     irAComentar() {
         this.props.navigation.navigate('comments', { id: this.props.post.id })
     }
+    
     irAPerfil() {
-        // hay dos casos: si voy a mi perfil y si voy a un perfil de un amigo 
-        // post es la props que viene de home. De esta se puede acceder a: data - id 
         {
             this.props.post.data.owner == auth.currentUser.email ?
-                this.props.navigation.navigate('miPerfil') 
+                this.props.navigation.navigate('Perfil') 
                 :
                 this.props.navigation.navigate('friendPerfil', { user: this.props.post.data.owner })
         }
-   
     }
 
     render() {
@@ -64,22 +58,18 @@ export default class Post extends Component {
                     <Text>{this.props.post.data.owner}</Text>
                 </TouchableOpacity>
                 <Image
-                style={styles.image}
-                source={{uri: this.props.post.data.imageUrl}}
-                resizeMode='contain'
+                    style={styles.image}
+                    source={{uri: this.props.post.data.imageUrl}}
+                    resizeMode='contain'
                 />
                 <Text>{this.props.post.data.likes.length} likes</Text>
                 {
                     this.state.estaMiLike ?
-                        <TouchableOpacity
-                            onPress={() => this.unlike()}
-                        >
+                        <TouchableOpacity onPress={() => this.unlike()}>
                             <Text>Unlike</Text>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity
-                            onPress={() => this.like()}
-                        >
+                        <TouchableOpacity onPress={() => this.like()}>
                             <Text>Like</Text>
                         </TouchableOpacity>
                 }
@@ -89,22 +79,18 @@ export default class Post extends Component {
                         <Text>Comentarios: {this.props.post.data.comments.length} </Text>
                     </TouchableOpacity>
                     <FlatList
-                    data={this.state.comentarios}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => 
-                        <View>
-                            <Text>{item.owner}: {item.text}</Text>
-                        </View>
-                    }
+                        data={this.state.comentarios}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item}) => 
+                            <View>
+                                <Text>{item.owner}: {item.text}</Text>
+                            </View>
+                        }
                     />
                     <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text>Ver más</Text>
-                    </TouchableOpacity>                    
-                    
-
+                    </TouchableOpacity>
                 </View>
-
-
             </View>
         )
     }
@@ -114,4 +100,4 @@ const styles = StyleSheet.create({
     image: {
         height: 400
     }
-  })
+})

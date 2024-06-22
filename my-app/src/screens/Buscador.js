@@ -49,7 +49,7 @@ export default class Buscador extends Component {
       <View>
         {console.log('Mis usuarios' + this.state.users)}
         {console.log('Mi busqueda' + this.state.busqueda)}
-        <Buscar guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)} filtroUsers={(busqueda) => this.filtroUsers(busqueda)} />
+        <Search guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)} filtroUsers={(busqueda) => this.filtroUsers(busqueda)} />
         { this.state.busqueda !== '' ?
         (this.state.users.length !== 0 ?
           <View>

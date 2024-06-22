@@ -1,7 +1,7 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { Component } from 'react'
-import { Camera } from 'expo-camera'
-import { storage, auth } from '../firebase/config'
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { Camera } from 'expo-camera';
+import { storage, auth } from '../firebase/config';
 
 export default class Camara extends Component {
   constructor(props){
@@ -10,7 +10,7 @@ export default class Camara extends Component {
         dioPermiso: false,
         urlTemporal: ''
     }
-    this.metodoCamara= null
+    this.metodoCamara = null
   }
 
   componentDidMount(){
@@ -20,9 +20,13 @@ export default class Camara extends Component {
   }
 
   tomarFoto(){
-    this.metodosCamara.takePictureAsync()
-    .then((urlTemp) => this.setState({urlTemporal: urlTemp.uri}))
-    .catch((err) => console.log(err))
+    if (this.metodoCamara) {
+      this.metodoCamara.takePictureAsync()
+      .then((urlTemp) => this.setState({urlTemporal: urlTemp.uri}))
+      .catch((err) => console.log(err))
+    } else {
+      console.log('Camera reference is not set');
+    }
   }
 
   descartarFoto(){
@@ -59,9 +63,10 @@ export default class Camara extends Component {
                     type={Camera.Constants.Type.back}
                     />
                     <TouchableOpacity
+                      style={styles.boton}
                       onPress={() => this.tomarFoto()}
                     > 
-                        <Text>Tomar foto</Text>
+                        <Text style={styles.textoBoton}>Tomar foto</Text>
                     </TouchableOpacity>
                 </>
                 :
@@ -71,14 +76,16 @@ export default class Camara extends Component {
                     source={{uri: this.state.urlTemporal}}
                   />
                   <TouchableOpacity
+                    style={styles.boton}
                     onPress={() => this.descartarFoto()}
                   >
-                    <Text>Rechazar foto</Text>
+                    <Text style={styles.textoBoton}>Rechazar foto</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
+                    style={styles.boton}
                     onPress={() => this.guardarFotoEnFirebase()}
                   >
-                    <Text>Aceptar foto</Text>
+                    <Text style={styles.textoBoton}>Aceptar foto</Text>
                   </TouchableOpacity>
                 </>
             :
@@ -103,5 +110,15 @@ const styles = StyleSheet.create({
     imagen:{
       height: 400,
       width: '100%'
+    },
+    boton: {
+      backgroundColor: '#fff',
+      padding: 10,
+      margin: 10,
+      borderRadius: 5,
+      alignItems: 'center'
+    },
+    textoBoton: {
+      color: '#000'
     }
 })

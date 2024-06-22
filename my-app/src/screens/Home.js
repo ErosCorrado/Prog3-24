@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, FlatList, StyleSheet } from 'react-native'
 import { auth, db } from "../firebase/config"
-import { FlatList } from 'react-native-web'
 import Post from '../components/Post'
 
 export default class Home extends Component {
@@ -18,39 +17,43 @@ export default class Home extends Component {
         db.collection("posts")
         .orderBy("createdAt", "desc")
         .onSnapshot((docs) => {
-
-        let postsObtenidos = []
-        docs.forEach((doc)=>{
-          postsObtenidos.push({
-            id: doc.id,
-            data: doc.data()
+          let postsObtenidos = []
+          docs.forEach((doc)=>{
+            postsObtenidos.push({
+              id: doc.id,
+              data: doc.data()
+            })
           })
+          console.log('Posts obtenidos:', postsObtenidos);  // Verifica los posts obtenidos
+          this.setState({
+            posts: postsObtenidos
+          })       
         })
-        this.setState({
-          posts: postsObtenidos
-        })       
-      })
       }
     })
   }
 
-
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Home</Text>
         <FlatList
-        data = {this.state.posts}
-        keyExtractor = {(item) => item.id.toString()}
-        renderItem = {
-          ({item}) => 
+          data={this.state.posts}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({item}) => 
             <View>
-              <Post  navigation={this.props.navigation} post = {item}/>
+              <Post navigation={this.props.navigation} post={item} />
             </View>
-
-        }
+          }
         />
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10
+  }
+})
