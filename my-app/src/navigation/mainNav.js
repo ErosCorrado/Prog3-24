@@ -1,6 +1,6 @@
-import { Text, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Register from '../screens/Register';
 import Login from '../screens/Login';
 import TabNav from './TabNav';
@@ -8,10 +8,9 @@ import TabNav from './TabNav';
 const Stack = createNativeStackNavigator();
 
 function mainNav() {
-
     return (
         <NavigationContainer> 
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName="login">
                 <Stack.Screen
                     name='register'
                     component={Register}
@@ -27,11 +26,8 @@ function mainNav() {
                     component={TabNav}
                     options={{ headerShown: false }}
                 />
-
             </Stack.Navigator>
         </NavigationContainer>
-
-
-    )
+    );
 }
-export default mainNav
+export default mainNav;
