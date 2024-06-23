@@ -45,7 +45,7 @@ export default class Post extends Component {
     irAPerfil() {
         this.props.post.data.owner == auth.currentUser.email ?
             this.props.navigation.navigate('Perfil') :
-            this.props.navigation.navigate('friendPerfil', { user: this.props.post.data.owner })
+            this.props.navigation.navigate('UserProfile', { user: this.props.post.data.owner })
     }
 
     render() {

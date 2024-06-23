@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Home from '../screens/Home';
 import CrearPost from '../screens/CrearPost';
 import Profile from '../screens/Profile';
+import UserProfile from '../screens/UserProfile';
 import Buscador from '../screens/Buscador'; // Asegúrate de importar Buscador
 
 const Tab = createBottomTabNavigator();
