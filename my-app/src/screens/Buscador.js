@@ -44,6 +44,15 @@ export default class Buscador extends Component {
     });
   }
 
+  irAPerfil(user) {
+    {
+      user == auth.currentUser.email ?
+        this.props.navigation.navigate('Perfil')
+        :
+        this.props.navigation.navigate('UserProfile', { user: user })
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -62,11 +71,7 @@ export default class Buscador extends Component {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate('friendProfile', {
-                        userId: item.id,
-                      })
-                    }
+                  onPress={() => this.irAPerfil(item.data.owner)}
                   >
                     <Text style={styles.userText}>{item.data.name}</Text>
                   </TouchableOpacity>

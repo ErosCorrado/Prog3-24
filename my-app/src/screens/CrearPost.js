@@ -17,7 +17,6 @@ export default class CrearPost extends Component {
             db.collection('posts').add({
                 descripcion: descripcion,
                 owner: auth.currentUser.email,
-                nombre: auth.currentUser.name,
                 createdAt: Date.now(),
                 imageUrl: this.state.imgPostUrl,
                 likes: [],
