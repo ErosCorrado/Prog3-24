@@ -104,11 +104,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     camara:{
-        height: 400,
+        height:  '100%',
         width: '100%',
     },
     imagen:{
-      height: 400,
+      height:  '100%',
       width: '100%'
     },
     boton: {

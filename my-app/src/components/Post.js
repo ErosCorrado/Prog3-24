@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
 import { db, auth } from "../firebase/config"
 import firebase from "firebase"
+import {FontAwesome} from '@expo/vector-icons'
+
 
 export default class Post extends Component {
     constructor(props) {
@@ -13,11 +15,10 @@ export default class Post extends Component {
     }
 
     componentDidMount() {
-        console.log('Post data:', this.props.post);  // Verifica los datos del post
         let estaMiLike = this.props.post.data.likes.includes(auth.currentUser.email)
         this.setState({ estaMiLike: estaMiLike })
     }
-
+               
     like() {
         db.collection("posts")
             .doc(this.props.post.id)
@@ -27,7 +28,7 @@ export default class Post extends Component {
             .then((resp) => this.setState({ estaMiLike: true }))
             .catch((err) => console.log(err))
     }
-
+ 
     unlike() {
         db.collection("posts")
             .doc(this.props.post.id)
@@ -38,9 +39,10 @@ export default class Post extends Component {
             .catch((err) => console.log(err))
     }
 
-    irAComentar() {
-        this.props.navigation.navigate('comments', { id: this.props.post.id })
-    }
+    // irAComentar() {
+    //     this.props.navigation.navigate('comments', { id: this.props.post.id })
+    // }
+
     
     irAPerfil() {
         {
@@ -62,22 +64,26 @@ export default class Post extends Component {
                     source={{uri: this.props.post.data.imageUrl}}
                     resizeMode='contain'
                 />
-                <Text>{this.props.post.data.likes.length} likes</Text>
-                {
-                    this.state.estaMiLike ?
-                        <TouchableOpacity onPress={() => this.unlike()}>
-                            <Text>Unlike</Text>
+                {/* <Text>{this.props.post.data.likes.length} likes</Text>
+                {   } */}
+                        {
+                        this.state.estaMiLike ?
+                        <TouchableOpacity onPress={() => this.unlike()}
+                        >
+                            <FontAwesome name='heart' color={'red'} size={24} />
                         </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={() => this.like()}>
-                            <Text>Like</Text>
+                        :              
+                        <TouchableOpacity  onPress={() => this.like()}
+                        >
+
+                            <FontAwesome name='heart-o' color={'red'} size={24} />
                         </TouchableOpacity>
-                }
+                        }
 
                 <View>
-                    <TouchableOpacity onPress={() => this.irAComentar()}>
+                    {/* <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text>Comentarios: {this.props.post.data.comments.length} </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <FlatList
                         data={this.state.comentarios}
                         keyExtractor={(item, index) => index.toString()}
@@ -88,7 +94,7 @@ export default class Post extends Component {
                         }
                     />
                     <TouchableOpacity onPress={() => this.irAComentar()}>
-                        <Text>Ver más</Text>
+                        <Text>Ver más</Text> 
                     </TouchableOpacity>
                 </View>
             </View>
