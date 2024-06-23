@@ -64,8 +64,7 @@ export default class Post extends Component {
                     source={{uri: this.props.post.data.imageUrl}}
                     resizeMode='contain'
                 />
-                {/* <Text>{this.props.post.data.likes.length} likes</Text>
-                {   } */}
+
                         {
                         this.state.estaMiLike ?
                         <TouchableOpacity onPress={() => this.unlike()}
@@ -79,7 +78,8 @@ export default class Post extends Component {
                             <FontAwesome name='heart-o' color={'red'} size={24} />
                         </TouchableOpacity>
                         }
-
+                <Text>{this.props.post.data.likes.length} likes</Text>
+                {   }
                 <View>
                     {/* <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text>Comentarios: {this.props.post.data.comments.length} </Text>
