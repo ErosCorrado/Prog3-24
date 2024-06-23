@@ -1,72 +1,117 @@
-import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import React, { Component } from 'react'
-import Search from '../components/Search'
-import { db, auth} from '../firebase/config'
+import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, { Component } from 'react';
+import Search from '../components/Search';
+import { db, auth } from '../firebase/config';
 
 export default class Buscador extends Component {
   constructor(props) {
-    super()
+    super(props);
     this.state = {
       users: [],
       backUp: [],
-      busqueda: false
-    }
+      busqueda: false,
+    };
   }
 
   componentDidMount() {
-    db.collection('users')
-      .onSnapshot((docs) => {
-        let users = [];
-        docs.forEach((doc) => {
-          users.push({
-            id: doc.id,
-            data: doc.data()
-          })
-        })
-        this.setState({
-          users: users,
-          backUp: users 
-        })
-      })
-      {console.log('Estos son mis usuarios' + this.state.users)}
+    db.collection('users').onSnapshot((docs) => {
+      let users = [];
+      docs.forEach((doc) => {
+        users.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      this.setState({
+        users: users,
+        backUp: users,
+      });
+    });
   }
 
   guardarBusqueda(valorInput) {
     this.setState({
-      busqueda: valorInput
-    })
+      busqueda: valorInput,
+    });
   }
 
-  filtroUsers(busqueda){
-    let filteredUsers = this.state.backUp.filter((elm) => elm.data.name.toLowerCase().includes(busqueda.toLowerCase()))
+  filtroUsers(busqueda) {
+    let filteredUsers = this.state.backUp.filter((elm) =>
+      elm.data.name.toLowerCase().includes(busqueda.toLowerCase())
+    );
     this.setState({
-      users: filteredUsers
-    })
+      users: filteredUsers,
+    });
   }
 
   render() {
     return (
-      <View>
-        {console.log('Mis usuarios' + this.state.users)}
-        {console.log('Mi busqueda' + this.state.busqueda)}
-        <Search guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)} filtroUsers={(busqueda) => this.filtroUsers(busqueda)} />
-        { this.state.busqueda !== '' ?
-        (this.state.users.length !== 0 ?
-          <View>
-          <Text>Resultados para: {this.state.busqueda}</Text>
-          <FlatList
-            data={this.state.users}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) =>
-              <Text>{item.data.name}</Text>}
-          />
-          </View>
-          :
-          <h2>No se encontraron resultados para: {this.state.busqueda}</h2>)
-          :
-          <Text>Buscar un usuario</Text>
-        }
+      <View style={styles.container}>
+        <Search
+          guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)}
+          filtroUsers={(busqueda) => this.filtroUsers(busqueda)}
+        />
+        {this.state.busqueda !== '' ? (
+          this.state.users.length !== 0 ? (
+            <View style={styles.resultsContainer}>
+              <Text style={styles.resultText}>
+                Resultados para: {this.state.busqueda}
+              </Text>
+              <FlatList
+                data={this.state.users}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate('friendProfile', {
+                        userId: item.id,
+                      })
+                    }
+                  >
+                    <Text style={styles.userText}>{item.data.name}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          ) : (
+            <Text style={styles.noResultsText}>
+              No se encontraron resultados para: {this.state.busqueda}
+            </Text>
+          )
+        ) : (
+          <Text style={styles.promptText}>Buscar un usuario</Text>
+        )}
       </View>
-    )
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  resultsContainer: {
+    marginTop: 20,
+  },
+  resultText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  userText: {
+    fontSize: 16,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  noResultsText: {
+    fontSize: 16,
+    color: 'red',
+    marginTop: 20,
+  },
+  promptText: {
+    fontSize: 16,
+    marginTop: 20,
+  },
+});

@@ -14,18 +14,40 @@ export default class Buscar extends Component {
         this.props.guardarBusqueda(busqueda)
         this.props.filtroUsers(busqueda)
     }
+
     render() {
         return (
-            <View>
-                <Text>Buscador</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Buscador</Text>
                 <TextInput
                     onChangeText={(busqueda) => this.filtrarYGuardar(busqueda)}
                     //value={this.state.password}
                     placeholder='Buscar un usuario'
                     keyboardType='default'
                     style={styles.form}
-                ></TextInput>
+                />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    form: {
+        width: '100%',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+    },
+})

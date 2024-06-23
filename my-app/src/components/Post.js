@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
 import { db, auth } from "../firebase/config"
 import firebase from "firebase"
-import {FontAwesome} from '@expo/vector-icons'
-
+import { FontAwesome } from '@expo/vector-icons'
 
 export default class Post extends Component {
     constructor(props) {
@@ -18,7 +17,7 @@ export default class Post extends Component {
         let estaMiLike = this.props.post.data.likes.includes(auth.currentUser.email)
         this.setState({ estaMiLike: estaMiLike })
     }
-               
+
     like() {
         db.collection("posts")
             .doc(this.props.post.id)
@@ -28,7 +27,7 @@ export default class Post extends Component {
             .then((resp) => this.setState({ estaMiLike: true }))
             .catch((err) => console.log(err))
     }
- 
+
     unlike() {
         db.collection("posts")
             .doc(this.props.post.id)
@@ -39,62 +38,56 @@ export default class Post extends Component {
             .catch((err) => console.log(err))
     }
 
-    // irAComentar() {
-    //     this.props.navigation.navigate('comments', { id: this.props.post.id })
-    // }
+    /* irAComentar() {
+        this.props.navigation.navigate('comments', { id: this.props.post.id })
+    } */
 
-    
     irAPerfil() {
-        {
-            this.props.post.data.owner == auth.currentUser.email ?
-                this.props.navigation.navigate('Perfil') 
-                :
-                this.props.navigation.navigate('friendPerfil', { user: this.props.post.data.owner })
-        }
+        this.props.post.data.owner == auth.currentUser.email ?
+            this.props.navigation.navigate('Perfil') :
+            this.props.navigation.navigate('friendPerfil', { user: this.props.post.data.owner })
     }
 
     render() {
         return (
-            <View>
+            <View style={styles.postContainer}>
                 <TouchableOpacity onPress={() => this.irAPerfil()}>
-                    <Text>{this.props.post.data.owner}</Text>
+                    <Text style={styles.ownerText}>{this.props.post.data.owner}</Text>
                 </TouchableOpacity>
                 <Image
                     style={styles.image}
-                    source={{uri: this.props.post.data.imageUrl}}
+                    source={{ uri: this.props.post.data.imageUrl }}
                     resizeMode='contain'
                 />
-
-                        {
+                <View style={styles.likeContainer}>
+                    {
                         this.state.estaMiLike ?
-                        <TouchableOpacity onPress={() => this.unlike()}
-                        >
-                            <FontAwesome name='heart' color={'red'} size={24} />
-                        </TouchableOpacity>
-                        :              
-                        <TouchableOpacity  onPress={() => this.like()}
-                        >
-
-                            <FontAwesome name='heart-o' color={'red'} size={24} />
-                        </TouchableOpacity>
-                        }
-                <Text>{this.props.post.data.likes.length} likes</Text>
-                {   }
+                            <TouchableOpacity onPress={() => this.unlike()}>
+                                <FontAwesome name='heart' color={'red'} size={24} />
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => this.like()}>
+                                <FontAwesome name='heart-o' color={'red'} size={24} />
+                            </TouchableOpacity>
+                    }
+                    <Text style={styles.likesText}>{this.props.post.data.likes.length} likes</Text>
+                </View>
+                <Text style={styles.descriptionText}>{this.props.post.data.descripcion}</Text>
                 <View>
                     {/* <TouchableOpacity onPress={() => this.irAComentar()}>
-                        <Text>Comentarios: {this.props.post.data.comments.length} </Text>
+                        <Text style={styles.commentCountText}>Comentarios: {this.props.post.data.comments.length}</Text>
                     </TouchableOpacity> */}
                     <FlatList
                         data={this.state.comentarios}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item}) => 
-                            <View>
-                                <Text>{item.owner}: {item.text}</Text>
+                        renderItem={({ item }) =>
+                            <View style={styles.commentContainer}>
+                                <Text style={styles.commentText}>{item.owner}: {item.text}</Text>
                             </View>
                         }
                     />
                     <TouchableOpacity onPress={() => this.irAComentar()}>
-                        <Text>Ver más</Text> 
+                        <Text style={styles.viewMoreText}>Ver más</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -103,7 +96,58 @@ export default class Post extends Component {
 }
 
 const styles = StyleSheet.create({
+    postContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 15,
+        margin: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    ownerText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
     image: {
-        height: 400
-    }
+        height: 300,
+        borderRadius: 10,
+        marginBottom: 10,
+    },
+    likeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    likesText: {
+        marginLeft: 10,
+        fontSize: 16,
+    },
+    descriptionText: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    commentContainer: {
+        marginBottom: 5,
+    },
+    commentText: {
+        fontSize: 14,
+        color: '#333',
+    },
+    commentCountText: {
+        fontSize: 14,
+        color: '#007BFF',
+        marginTop: 10,
+    },
+    viewMoreText: {
+        fontSize: 14,
+        color: '#007BFF',
+        marginTop: 10,
+    },
 })

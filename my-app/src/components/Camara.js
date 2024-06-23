@@ -1,7 +1,7 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { Component } from 'react';
-import { Camera } from 'expo-camera';
-import { storage, auth } from '../firebase/config';
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { Component } from 'react'
+import { Camera } from 'expo-camera'
+import { storage, auth } from '../firebase/config'
 
 export default class Camara extends Component {
   constructor(props){
@@ -15,24 +15,18 @@ export default class Camara extends Component {
 
   componentDidMount(){
     Camera.requestCameraPermissionsAsync()
-    .then(() => this.setState({dioPermiso: true}))
+    .then(() => this.setState({ dioPermiso: true }))
     .catch(() => console.log('No tenemos los permisos'))
   }
 
   tomarFoto(){
-    if (this.metodoCamara) {
-      this.metodoCamara.takePictureAsync()
-      .then((urlTemp) => this.setState({urlTemporal: urlTemp.uri}))
-      .catch((err) => console.log(err))
-    } else {
-      console.log('Camera reference is not set');
-    }
+    this.metodoCamara.takePictureAsync()
+    .then((urlTemp) => this.setState({ urlTemporal: urlTemp.uri }))
+    .catch((err) => console.log(err))
   }
 
   descartarFoto(){
-    this.setState({
-      urlTemporal: ''
-    })
+    this.setState({ urlTemporal: '' })
   }
 
   guardarFotoEnFirebase(){
@@ -41,7 +35,7 @@ export default class Camara extends Component {
     .then((imgProcesada) => {
       const ref = storage.ref(`foto/${Date.now()}.jpeg`)
       ref.put(imgProcesada)
-      .then((url) => {
+      .then(() => {
         ref.getDownloadURL()
         .then(url => this.props.actualizarImgUrl(url))
       })
@@ -75,18 +69,20 @@ export default class Camara extends Component {
                     style={styles.imagen}
                     source={{uri: this.state.urlTemporal}}
                   />
-                  <TouchableOpacity
-                    style={styles.boton}
-                    onPress={() => this.descartarFoto()}
-                  >
-                    <Text style={styles.textoBoton}>Rechazar foto</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.boton}
-                    onPress={() => this.guardarFotoEnFirebase()}
-                  >
-                    <Text style={styles.textoBoton}>Aceptar foto</Text>
-                  </TouchableOpacity>
+                  <View style={styles.botonesContainer}>
+                    <TouchableOpacity
+                      style={styles.boton}
+                      onPress={() => this.descartarFoto()}
+                    >
+                      <Text style={styles.textoBoton}>Rechazar foto</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.boton}
+                      onPress={() => this.guardarFotoEnFirebase()}
+                    >
+                      <Text style={styles.textoBoton}>Aceptar foto</Text>
+                    </TouchableOpacity>
+                  </View>
                 </>
             :
             <Text>No diste permisos para usar la camara</Text>
@@ -97,28 +93,34 @@ export default class Camara extends Component {
 }
 
 const styles = StyleSheet.create({
-    contenedor:{
-        flex: 1,
-        backgroundColor: '#000',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    camara:{
-        height:  '100%',
-        width: '100%',
-    },
-    imagen:{
-      height:  '100%',
-      width: '100%'
-    },
-    boton: {
-      backgroundColor: '#fff',
-      padding: 10,
-      margin: 10,
-      borderRadius: 5,
-      alignItems: 'center'
-    },
-    textoBoton: {
-      color: '#000'
-    }
+  contenedor: {
+    flex: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  camara: {
+    height: '80%',
+    width: '200%',
+  },
+  imagen: {
+    height: '80%',
+    width: '100%'
+  },
+  botonesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20
+  },
+  boton: {
+    backgroundColor: '#fff',
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    alignItems: 'center'
+  },
+  textoBoton: {
+    color: '#000'
+  }
 })

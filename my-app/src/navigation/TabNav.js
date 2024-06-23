@@ -29,7 +29,7 @@ export default class TabNav extends Component {
           }}
         />
         <Tab.Screen 
-          name='search' 
+          name='Buscador' 
           component={Buscador}
           options={{
             headerShown: false,
