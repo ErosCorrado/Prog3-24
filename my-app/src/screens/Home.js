@@ -34,6 +34,7 @@ export default class Home extends Component {
   }
 
   render() {
+    console.log('user:', auth.currentUser);
     return (
       <View style={styles.container}>
         <Text>Home</Text>
