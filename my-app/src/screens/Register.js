@@ -229,13 +229,18 @@ class Register extends Component {
                 <View>
                   <TouchableOpacity
                     style={styles.btn}
-                    onPress={() => this.onSubmit(this.state.email, this.state.password, this.state.name)}
+                    onPress={() => {
+                      this.props.navigation.navigate('login');
+                      this.onSubmit(this.state.email, this.state.password, this.state.name);
+                    }}
                     disabled={this.state.loading}
                   >
                     {this.state.loading === true ? (
                         <ActivityIndicator size='large' color="white" />
                     ) : (
                       <Text style={styles.textBtn}>Regístrame</Text>
+                      
+
 
                     )}
                   </TouchableOpacity>
