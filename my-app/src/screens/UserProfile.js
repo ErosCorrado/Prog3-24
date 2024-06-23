@@ -48,21 +48,8 @@ export default class UserProfile extends Component {
 
     render() {
         return (
-            <ImageBackground source={require('../../assets/fondoHome.jpeg')} style={styles.backgroundImage}>
                 <ScrollView>
-                    <View style={styles.profileContainer}>
-                        <Image
-                            source={{ uri: this.state.user ? this.state.user.imgProfile : 'https://www.4x4.ec/overlandecuador/wp-content/uploads/2017/06/default-user-icon-8.jpg' }}
-                            style={styles.profileImage}
-                            resizeMode='contain'
-                        />
-                        <Text style={styles.profileText}>Welcome to your profile: {this.state.user ? this.state.user.name : ''}</Text>
-                        <Text style={styles.profileText}>Your email: {this.state.user ? this.state.user.email : ''}</Text>
-                    </View>
-                    <Text style={styles.sectionTitle}>Your Posts</Text>
-                    {this.state.posts.length === 0 ? (
-                        <Text style={styles.noPostsText}>You don't have any posts yet.</Text>
-                    ) : (
+
                         <FlatList
                             data={this.state.posts}
                             keyExtractor={(item) => item.id.toString()}
@@ -72,9 +59,8 @@ export default class UserProfile extends Component {
                                 </TouchableOpacity>
                             )}
                         />
-                    )}
                 </ScrollView>
-            </ImageBackground>
+
         );
     }
 }
