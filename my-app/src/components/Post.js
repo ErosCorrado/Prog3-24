@@ -74,9 +74,9 @@ export default class Post extends Component {
                 </View>
                 <Text style={styles.descriptionText}>{this.props.post.data.descripcion}</Text>
                 <View>
-                    {/* <TouchableOpacity onPress={() => this.irAComentar()}>
+                    <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text style={styles.commentCountText}>Comentarios: {this.props.post.data.comments.length}</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     <FlatList
                         data={this.state.comentarios}
                         keyExtractor={(item, index) => index.toString()}
