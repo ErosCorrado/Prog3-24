@@ -76,14 +76,14 @@ export default class Post extends Component {
                     <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text style={styles.commentCountText}>Comentarios: {this.props.post.data.comentarios.length}</Text>
                     </TouchableOpacity>
-                    <FlatList 
-                        data={this.props.post.data.comentarios.slice(-4).reverse()}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
+                    <FlatList
+                        data={this.props.post.data.comentarios.slice(-4).reverse()} // Select the last 4 comments and reverse the order
+                        keyExtractor={(item, index) => index.toString()} // Use index because items may not have unique ids
+                        renderItem={({ item }) =>
                             <View style={styles.commentContainer}>
-                                <Text style={styles.commentText}>{item.owner}: {item.text}</Text>
+                                <Text style={styles.commentText}>{item.owner}: {item.comentario}</Text>
                             </View>
-                        )}
+                        }
                     />
                     <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text style={styles.viewMoreText}>Ver más</Text>
@@ -93,6 +93,7 @@ export default class Post extends Component {
         );
     }
 }
+
 
 const styles = StyleSheet.create({
     postContainer: {
