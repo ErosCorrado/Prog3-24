@@ -5,6 +5,7 @@ import Register from '../screens/Register';
 import Login from '../screens/Login';
 import TabNav from './TabNav';
 import UserProfile from '../screens/UserProfile';
+import Comentarios from '../screens/Comentarios'
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,11 @@ function mainNav() {
                 <Stack.Screen
                     name='UserProfile'
                     component={UserProfile}
+                />
+                <Stack.Screen
+                    name='Comments'
+                    component={Comentarios}
+                    options={{headerShown: true}}
                 />
             </Stack.Navigator>
         </NavigationContainer>
