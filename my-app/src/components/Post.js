@@ -51,22 +51,22 @@ export default class Post extends Component {
     render() {
         return (
             <View style={styles.postContainer}>
-                <TouchableOpacity onPress={() => this.irAPerfil()}>
+                <TouchableOpacity onPress={() => this.irAPerfil()} >
                     <Text style={styles.ownerText}>{this.props.post.data.owner}</Text>
                 </TouchableOpacity>
                 <Image
                     style={styles.image}
                     source={{ uri: this.props.post.data.imageUrl }}
-                    resizeMode='contain'
+                    resizeMode='cover'
                 />
                 <View style={styles.likeContainer}>
                     {this.state.estaMiLike ? (
                         <TouchableOpacity onPress={() => this.unlike()}>
-                            <FontAwesome name='heart' color={'red'} size={24} />
+                            <FontAwesome name='heart' color={'#e74c3c'} size={24} />
                         </TouchableOpacity>
                     ) : (
                         <TouchableOpacity onPress={() => this.like()}>
-                            <FontAwesome name='heart-o' color={'red'} size={24} />
+                            <FontAwesome name='heart-o' color={'#e74c3c'} size={24} />
                         </TouchableOpacity>
                     )}
                     <Text style={styles.likesText}>{this.props.post.data.likes.length} likes</Text>
@@ -77,8 +77,8 @@ export default class Post extends Component {
                         <Text style={styles.commentCountText}>Comentarios: {this.props.post.data.comentarios.length}</Text>
                     </TouchableOpacity>
                     <FlatList
-                        data={this.props.post.data.comentarios.slice(-4).reverse()} // Select the last 4 comments and reverse the order
-                        keyExtractor={(item, index) => index.toString()} // Use index because items may not have unique ids
+                        data={this.props.post.data.comentarios.slice(-4).reverse()}
+                        keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) =>
                             <View style={styles.commentContainer}>
                                 <Text style={styles.commentText}>{item.owner}: {item.comentario}</Text>
@@ -94,59 +94,59 @@ export default class Post extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     postContainer: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2a2a2a',
         borderRadius: 10,
         padding: 15,
-        margin: 10,
+        marginBottom: 20,
         shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 6,
     },
     ownerText: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 15,
+        color: '#f0f0f0',
     },
     image: {
-        height: 300,
+        width: '100%',
+        height: 300, 
         borderRadius: 10,
-        marginBottom: 10,
+        marginBottom: 15,
     },
     likeContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 15,
     },
     likesText: {
         marginLeft: 10,
         fontSize: 16,
+        color: '#f0f0f0',
     },
     descriptionText: {
         fontSize: 16,
-        marginBottom: 10,
+        marginBottom: 15,
+        color: '#f0f0f0',
     },
     commentContainer: {
-        marginBottom: 5,
+        marginBottom: 10,
     },
     commentText: {
         fontSize: 14,
-        color: '#333',
+        color: '#f0f0f0',
     },
     commentCountText: {
-        fontSize: 14,
+        fontSize: 16,
         color: '#007BFF',
         marginTop: 10,
     },
     viewMoreText: {
-        fontSize: 14,
+        fontSize: 16,
         color: '#007BFF',
         marginTop: 10,
     },

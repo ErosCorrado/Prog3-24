@@ -21,7 +21,6 @@ export default class Buscar extends Component {
                 <Text style={styles.title}>Buscador</Text>
                 <TextInput
                     onChangeText={(busqueda) => this.filtrarYGuardar(busqueda)}
-                    //value={this.state.password}
                     placeholder='Buscar un usuario'
                     keyboardType='default'
                     style={styles.form}

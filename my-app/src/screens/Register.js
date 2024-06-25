@@ -51,7 +51,6 @@ class Register extends Component {
 
     this.setState({ loading: true, errorName: '', errorPassword: '', errorMail: '' });
     
-    //permite registrar al usuario
     auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
         console.log('usuario registrado')
@@ -91,7 +90,6 @@ class Register extends Component {
       })
   }
 
-  // Actualizo y guardo foto
   actualizarImgUrl(url) {
     this.setState({
       fotoPerfil: url,
@@ -118,7 +116,6 @@ class Register extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* ERROR: CUANDO ME REGISTRO Y NO LE AGREGO FOTO. PONGO OMITIR VA A LOGIN PERO NO VUELVE AL REGISTER? */}
         {this.state.userRegistrado === true 
           ?
           <View>
@@ -128,7 +125,6 @@ class Register extends Component {
               actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
             />
             {
-              // Agregar boton para continuar sin foto de perfil
               this.state.fotoPerfil !== '' ?
                 <TouchableOpacity
                   onPress={() => this.saveImg()}
